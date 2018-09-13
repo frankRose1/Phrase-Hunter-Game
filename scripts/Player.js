@@ -1,5 +1,6 @@
 class Player {
-    constructor(){
+    constructor(name){
+        this.name = name;
         this.lives = 5;
     }
 }
