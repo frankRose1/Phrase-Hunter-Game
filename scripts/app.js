@@ -11,7 +11,7 @@ startButton.addEventListener('click', () => {
 });
 
 function playerMove() {
-    game.handleInteraction(this.textContent);
+    game.handleInteraction(this);
 }
 
 keys.forEach(key => key.addEventListener("click", playerMove));

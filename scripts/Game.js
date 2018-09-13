@@ -25,44 +25,74 @@ class Game {
 
     /**
      * Checks to see if the button clicked by a player matches a letter in the phrase
-     *  @param {string} letter - textContent of one of the keys pressed by a user
+     *  @param {node} letterNode - node that was clicked by the user
      *  If not call the removeLife() method
      *  If it matches, call showMatchedLetter() on the phrase and then call checkForWin()
      */
-    handleInteraction(letter){
-        letter = letter.toLowerCase(); //for good measure
-        
+    handleInteraction(letterNode){
+        if (letterNode.classList.contains('disabled')) return;
+
+        const letter = letterNode.textContent.toLowerCase(); //for good measure
+        const that = this;
+
         if (this.ready) {
             const letterIsPresent = this.phrase.checkLetter(letter);
             if (letterIsPresent) {
                 this.phrase.showMatchedLetter(letter);
                 this.phrase.markLetter(letter);
+                this.disableKey(letterNode);
             } else {
                 this.removeLife();
+                this.markKeyIncorrect(letterNode);
             }
 
-            const gameOver = this.checkForWin();
-            if (gameOver) {
-                this.gameOver('Game over! You win!');
-            }
+            this.checkForWin(function(win, loss){
+                if (win) {
+                    that.gameOver('Game over! You win!');
+                }
+                if (loss) {
+                    that.gameOver('Game over! You ran out of lives!');
+                }
+            });
         }
         
     }
 
     /**
+     * Disable a key after a player clicks it
+     * @param {node} node in the DOM to be marked as chosen
+     */
+    disableKey(node){
+        node.classList.add('chosen');
+    }
+
+    /**
+     * Mark an incorrect key so the user knows what keys they have pressed
+     * @param {node} - node in the DOM to be marked as incorrect
+     */
+    markKeyIncorrect(node){
+        node.classList.add('wrong');
+    }
+
+    /**
      * Increments "miss",  takes a heart from the board and if the player is at 5 misses, ends the game
+     * TODO: Remove a heart on the board
      */
     removeLife(){
-        console.log('remove a life');
+        this.missed++;
+        //remove a heart on the board
     }
 
     /**
      * Checks to see if the player has selected all of the letters in the phrase
-     * @returns {boolean} win - true if game is over
+     * @param {function} callback - callback either a win or loss
      */
-    checkForWin(){
+    checkForWin(callback){
         let unplayedLetters = 0; 
-        let win = false;
+
+        if (this.missed == 5) {
+            callback(null, true);
+        }
 
         this.phrase.letters.forEach(letter => {
             //if a letter is not played and is not a space
@@ -70,12 +100,11 @@ class Game {
                 unplayedLetters++;
             }
         });
+
         //should be 0 if all are played
         if (unplayedLetters == 0) {
-            win = true;
+            callback(true, null);
         }
-
-        return win;
     }
 
     /**
