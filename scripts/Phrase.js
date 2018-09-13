@@ -2,8 +2,8 @@
  * Phrase class will handle the creation of phrases
  */
 class Phrase {
-    constructor(phrase){
-        this.phrase = phrase;
+    constructor(text){
+        this.text = text;
     }
 
     /**

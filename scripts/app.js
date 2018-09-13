@@ -1,6 +1,8 @@
 const startDiv = document.getElementById('overlay');
 const startButton = document.getElementById('btn__reset');
-startDiv.style.display = 'none';
+const game = new Game(phrasesArray);
+
 startButton.addEventListener('click', () => {
-    star
+    game.startGame();
+    startDiv.style.display = 'none';
 });

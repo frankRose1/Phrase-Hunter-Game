@@ -4,11 +4,13 @@
  */
 
 class Game {
-    constructor(){
-        this.phrases = ["I'm a phrase"]; //an array of phrases, maybe move this in to antoher file
+    constructor(phrases){
+        this.phrases = phrases;
+        this.phrase = null;
         this.ready = false;
+        this.player = new Player();
         this.win = false;
-        this.missed = 0; //tracks then number of missed guesses by a player, 5 misses will lose the game
+        this.missed = 0; //tracks the number of missed guesses by a player, 5 misses will lose the game
     }
 
     /**
@@ -16,7 +18,9 @@ class Game {
      * @return {string} phrase - a random phrase from the array
      */
     getRandomPhrase(){
-
+        const randomNum = Math.floor(Math.random() * this.phrases.length);
+        const randomPhrase = this.phrases[randomNum];
+        return new Phrase(randomPhrase);
     }
 
     /**
@@ -53,7 +57,8 @@ class Game {
      * Calls getRandomPhrase and adds that phrase to the board by calling the Phrase class' addPhraseToDisplay()
      */
     startGame(){
-
+        this.ready = true;
+        this.phrase = this.getRandomPhrase();
     }
 
 }
