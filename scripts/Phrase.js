@@ -1,5 +1,5 @@
 /**
- * Phrase class will handle the creation of phrases
+ * Phrase class will handle the creation of phrases and letters
  */
 class Phrase {
     constructor(text){

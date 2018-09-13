@@ -8,9 +8,8 @@ class Game {
         this.phrases = phrases;
         this.phrase = null;
         this.ready = false;
-        this.player = new Player("John");
         this.win = false;
-        this.missed = 0; //tracks the number of missed guesses by a player, 5 misses will lose the game
+        this.missed = 0;
     }
 
     /**
@@ -32,7 +31,7 @@ class Game {
     handleInteraction(letterNode){
         if (letterNode.classList.contains('disabled')) return;
 
-        const letter = letterNode.textContent.toLowerCase(); //for good measure
+        const letter = letterNode.textContent.toLowerCase();
         const that = this;
 
         if (this.ready) {
@@ -76,11 +75,11 @@ class Game {
 
     /**
      * Increments "miss",  takes a heart from the board and if the player is at 5 misses, ends the game
-     * TODO: Remove a heart on the board
      */
     removeLife(){
+        const hearts = document.querySelectorAll('.tries');
+        hearts[this.missed].classList.add('remove');
         this.missed++;
-        //remove a heart on the board
     }
 
     /**

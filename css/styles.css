@@ -200,3 +200,13 @@ button {
 .lose a {
   color: var(--color-lose);
 }
+
+/* hearts */
+li.tries {
+  opacity: 1;
+  transition: opacity 0.5s ease-in;
+}
+
+li.tries.remove {
+  opacity: 0;
+}
