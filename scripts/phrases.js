@@ -13,5 +13,19 @@ const phrasesArray = [
     'Back By Popular Demand',
     'Beauty Is In The Eye Of The Beholder',
     'California Here We Come',
-    'Cast Your Fate To The Wind'
+    'Cast Your Fate To The Wind',
+    'Adding The Finishing Touches',
+    'I Thought You Might Say That',
+    'On The Edge Of My Seat',
+    'In It For The Long Haul',
+    'Out Of Sight Out Of Mind',
+    'Dog Eat Dog World',
+    'Keep Both Feet On The Ground',
+    'Penny For Your Thoughts',
+    'Nice Chunk Of Change',
+    'My Dog Ate My Homework',
+    'It Takes Two To Tango',
+    'Looks Good on Paper',
+    'Give Me A High Five',
+    'Elbow Room'
 ];

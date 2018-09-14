@@ -25,11 +25,9 @@ class Game {
     /**
      * Checks to see if the button clicked by a player matches a letter in the phrase
      *  @param {node} letterNode - node that was clicked by the user
-     *  If not call the removeLife() method
-     *  If it matches, call showMatchedLetter() on the phrase and then call checkForWin()
      */
     handleInteraction(letterNode){
-        if (letterNode.classList.contains('disabled')) return;
+        if (letterNode.disabled == true) {return;}
 
         const letter = letterNode.textContent.toLowerCase();
         const that = this;
@@ -39,18 +37,18 @@ class Game {
             if (letterIsPresent) {
                 this.phrase.showMatchedLetter(letter);
                 this.phrase.markLetter(letter);
-                this.disableKey(letterNode);
+                this.disableKey(letterNode, 'right');
             } else {
                 this.removeLife();
-                this.markKeyIncorrect(letterNode);
+                this.disableKey(letterNode, 'wrong');
             }
 
             this.checkForWin(function(win, loss){
                 if (win) {
-                    that.gameOver('Game over! You win!');
+                    that.gameOver('Game over! You win!', "win");
                 }
                 if (loss) {
-                    that.gameOver('Game over! You ran out of lives!');
+                    that.gameOver('Game over! You ran out of lives!', "lose");
                 }
             });
         }
@@ -60,17 +58,12 @@ class Game {
     /**
      * Disable a key after a player clicks it
      * @param {node} node in the DOM to be marked as chosen
+     * @param {string} answer - whether the key pressed what right or wrong
      */
-    disableKey(node){
-        node.classList.add('chosen');
-    }
-
-    /**
-     * Mark an incorrect key so the user knows what keys they have pressed
-     * @param {node} - node in the DOM to be marked as incorrect
-     */
-    markKeyIncorrect(node){
-        node.classList.add('wrong');
+    disableKey(node, answer){
+        const keyClass = answer == 'right' ? 'chosen' : 'wrong';
+        node.classList.add(keyClass);
+        node.disabled = true;
     }
 
     /**
@@ -109,10 +102,14 @@ class Game {
     /**
      * Display a message on the results of the game(win or lose)
      */
-    gameOver(message){
+    gameOver(message, result){
+        const finishScreen = document.getElementById('overlay');
+        const phraseTxt = result == 'win' ? this.phrase.text : '';
         document.getElementById('game-over-message').textContent = message;
+        document.getElementById('winning-phrase').textContent = phraseTxt;
         document.getElementById('board').style.display = 'none';
-        document.getElementById('overlay').style.display = 'block';
+        finishScreen.classList.add(result, "slideInDown");
+        finishScreen.style.display = 'flex';
     }
 
     /**
